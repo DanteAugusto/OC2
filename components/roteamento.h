@@ -1,40 +1,20 @@
 #include <systemc.h>
 #include <iostream>
 #include <bitset> 
-#include <unistd.h>
-#include "buffer.h"
-#include "roteamento.h"
-SC_MODULE(entrada) {
+#include<unistd.h>
+SC_MODULE(roteamento) {
     sc_in<bool> clk;
-    // vai ter:
-    // fios internos:
-    sc_signal<sc_uint<1>> eop;
-    sc_signal<sc_uint<1>> bop; //faca na caveira
-    sc_signal<sc_uint<3>> rib;
-    
-    
-    // o fluxo de entrada
-    
-    // o buffer
-    std::queue<sc_uint<34>> memo;
-    buffer bf("bf");
-    bf.memo("memo");
-    bf.eop("eop");
-    bf.bop("bop");
-    bf.rib("rib");
-    
-    // o roteamento
     sc_out<sc_uint<1>> arb1;
     sc_out<sc_uint<1>> arb2;
     sc_out<sc_uint<1>> arb3;
+
     sc_uint<2> requisitionPos;
     sc_uint<1> switching;
-    roteamento rtmnt("rtmnt")
-    rtmnt.arb1("arb1")
-    rtmnt.arb2("arb2")
-    rtmnt.arb3("arb3")
-    rtmnt.requisitionPos("requisitionPos")
-    rtmnt.switching("switching")
+
+    sc_in<sc_uint<1>> eop;
+    sc_in<sc_uint<1>> bop; //faca na caveira
+    sc_in<sc_uint<3>> rib;
+
 
     // racunho:
     // std::bitset<25> instruc = std::bitset<25>(inst.read());
@@ -53,7 +33,7 @@ SC_MODULE(entrada) {
     // sc_out<sc_uint<1>> confirmPC;
     // // sc_out<sc_int<5>> resultPC;
     // sc_out<sc_uint<32>> result;
-    SC_CTOR(entrada) {
+    SC_CTOR(roteamento) {
         SC_METHOD(compute);
     }
 };

@@ -1,10 +1,21 @@
 #include <systemc.h>
 #include <iostream>
 #include <bitset> 
-#include<unistd.h>
-//[0000][100100][000100]
-SC_MODULE(roteador) {
+#include <unistd.h>
+#include "entrada.h"
+#include "saida.h"
 
+
+SC_MODULE(roteador) {
+    entrada in1("in1");
+    entrada in2("in2");
+    entrada in3("in3");
+    entrada in4("in4");
+
+    saida out1("out1");
+    saida out2("out2");
+    saida out3("out3");
+    saida out4("out4");
     // exemplos de como inicializar fios
     // sc_in<sc_uint<32>> op1;
     // sc_in<sc_uint<32>> op2;

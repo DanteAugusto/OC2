@@ -5,6 +5,9 @@
 SC_MODULE(saida) {
     // vai ter:
     // o arbitro
+    sc_in<sc_uint<1>> rotmn1;
+    sc_in<sc_uint<1>> rotmn2;
+    sc_in<sc_uint<1>> rotmn3;
     // mux3x1
     // fluxo
     // exemplos de como inicializar fios
