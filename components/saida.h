@@ -2,24 +2,46 @@
 #include <iostream>
 #include <bitset> 
 #include<unistd.h>
+#include "arbitragem.h"
+#include "dataManager.h"
 SC_MODULE(saida) {
-    // vai ter:
-    // o arbitro
-    sc_in<sc_uint<1>> rotmn1;
-    sc_in<sc_uint<1>> rotmn2;
-    sc_in<sc_uint<1>> rotmn3;
-    // mux3x1
-    // fluxo
-    // exemplos de como inicializar fios
-    // sc_in<sc_uint<32>> op1;
-    // sc_in<sc_uint<32>> op2;
-    // // sc_in<sc_int<32>> value;
-    // sc_in<sc_uint<4>> opcode;
-    // sc_out<sc_uint<1>> confirmPC;
-    // // sc_out<sc_int<5>> resultPC;
-    // sc_out<sc_uint<32>> result;
-    SC_CTOR(saida) {
-        SC_METHOD(compute);
-        sensitive << op1 << op2 << opcode;
+    sc_in<bool> clk;
+
+    sc_in<bool> rotmn1;
+    sc_in<bool> rotmn2;
+    sc_in<bool> rotmn3;
+
+
+    sc_in<sc_bv<34>> in_data1;
+    sc_in<sc_bv<34>> in_data2;
+    sc_in<sc_bv<34>> in_data3;
+    sc_out<sc_bv<34>> out_data;
+
+    sc_out<bool> out_val;
+    sc_in<bool> out_ack;
+    sc_out<bool> x_rd;
+
+
+    sc_signal<sc_uint<2>> pos;
+    sc_out<bool> val;
+    sc_in<bool> ack;
+
+    arbitragem arb;    
+    dataManager dM;    
+
+    SC_CTOR(saida) : arb("arb"), dM("dM") {
+        arb.rotmn1(rotmn1);
+        arb.rotmn2(rotmn2);
+        arb.rotmn3(rotmn3);
+        arb.clk(clk);
+        arb.pos(pos);
+        arb.eop(out_data[0]);
+        arb.val(val);
+
+        dM.pos(pos);
+        dM.in_data1(in_data1);
+        dM.in_data2(in_data2);
+        dM.in_data3(in_data3);
+        dM.out_data(out_data);
     }
 };

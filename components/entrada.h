@@ -6,17 +6,33 @@
 #include "roteamento.h"
 SC_MODULE(entrada) {
     sc_in<bool> clk;
+
+
     // vai ter:
     // fios internos:
-    sc_signal<sc_uint<1>> eop;
-    sc_signal<sc_uint<1>> bop; //faca na caveira
-    sc_signal<sc_uint<3>> rib;
+    sc_signal<bool> eop;
+    sc_signal<bool> bop; //faca na caveira
+    sc_signal<sc_bv> rib; //3 bits
     
-    
-    // o fluxo de entrada
+
+    sc_in<sc_bv> in_data; //34 bits
+    sc_in<bool> in_val;
+    sc_out<bool> in_ack;
+
+
+    // saídas para o árbitro
+    sc_out<bool> arb1;
+    sc_out<bool> arb2;
+    sc_out<bool> arb3;
+
+
+    // vêm do chaveamento
+    sc_in<bool> readOk1;
+    sc_in<bool> readOk2;
+    sc_in<bool> readOk3;
     
     // o buffer
-    std::queue<sc_uint<34>> memo;
+    sc_bv memo[4];
     buffer bf("bf");
     bf.memo("memo");
     bf.eop("eop");
@@ -24,11 +40,11 @@ SC_MODULE(entrada) {
     bf.rib("rib");
     
     // o roteamento
-    sc_out<sc_uint<1>> arb1;
-    sc_out<sc_uint<1>> arb2;
-    sc_out<sc_uint<1>> arb3;
-    sc_uint<2> requisitionPos;
-    sc_uint<1> switching;
+    sc_out<bool> arb1;
+    sc_out<bool> arb2;
+    sc_out<bool> arb3;
+    sc_uint<2> requisitionPos; //2 bits
+    bool switching;
     roteamento rtmnt("rtmnt")
     rtmnt.arb1("arb1")
     rtmnt.arb2("arb2")
