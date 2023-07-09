@@ -31,10 +31,10 @@ SC_MODULE(roteamento) {
     sc_signal<sc_bv<3>> rib; //3 bits
 
     void consuming(){
-        if(switching &&((reqisitionPos == 0 && readOkL.read()) || 
-                        (reqisitionPos == 1 && readOkH.read()) ||
-                        (reqisitionPos == 2 && readOkT.read()) ||
-                        (reqisitionPos == 3 && readOkA.read()))){
+        if(switching &&((requisitionPos == 0 && readOkL.read()) || 
+                        (requisitionPos == 1 && readOkH.read()) ||
+                        (requisitionPos == 2 && readOkT.read()) ||
+                        (requisitionPos == 3 && readOkA.read()))){
             consume.write(true);
         }else{
             consume.write(false);
@@ -113,8 +113,9 @@ SC_MODULE(roteamento) {
         out_data.write(changeData);
     }
     SC_CTOR(roteamento) {
-        SC_METHOD(compute);
         switching = false;
         requisitionPos = 0;
+        SC_METHOD(consuming);
+        sensitive << swtching << requisitionPos << readOkL << readOkH << readOkA << readOkT;
     }
 };

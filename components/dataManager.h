@@ -22,6 +22,9 @@ SC_MODULE(dataManager) {
         }
     }
     SC_CTOR(dataManager) {
-        // funções eternas
+        SC_METHOD(dataOut);
+		sensitive << pos;
+        
+
     }
 };

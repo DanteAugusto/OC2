@@ -27,7 +27,6 @@ SC_MODULE(buffer) {
             qtt = qtt - 1;
             idxb++;
         }
-
     }
     void hasSomething(){
         rok.write(qtt> 0);
@@ -45,6 +44,14 @@ SC_MODULE(buffer) {
     SC_CTOR(buffer) {
         idxb = 0;
         qtt = 0;
-        SC_METHOD(compute);
+        SC_METHOD(consuming);
+		sensitive << rd;
+        SC_METHOD(hasSomething);
+		sensitive << qtt;
+        SC_METHOD(storing);
+		sensitive <<in_val << qtt;
+        SC_METHOD(dataOut);
+		sensitive << memo[idxb];
+        
     }
 };
