@@ -22,11 +22,6 @@ SC_MODULE(buffer) {
     sc_in<bool> rd;
 
 
-    // vão para o roteamento
-    // sc_out<bool> eop;
-    // sc_out<bool> bop; //faca na caveira
-    // sc_out<sc_bv<3>> rib; //3 bits
-
     void consuming(){
         if(rd.read()){
             qtt = qtt - 1;
@@ -34,16 +29,6 @@ SC_MODULE(buffer) {
         }
 
     }
-    // void infoRouding(){
-    //     eop.write(memo[idxb][0]);
-    //     eop.write(memo[idxb][1]);
-    //     sc_bv<3> toRib;
-    //     toRib[0] = memo[idxb][31];
-    //     toRib[1] = memo[idxb][32];
-    //     toRib[2] = memo[idxb][33];
-    //     rib.write(toRib);
-    //     rok.write(in_val.read());
-    // }
     void hasSomething(){
         rok.write(qtt> 0);
     }

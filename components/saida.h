@@ -23,20 +23,19 @@ SC_MODULE(saida) {
 
 
     sc_signal<sc_uint<2>> pos;
-    sc_out<bool> val;
-    sc_in<bool> ack;
 
     arbitragem arb;    
     dataManager dM;    
 
     SC_CTOR(saida) : arb("arb"), dM("dM") {
+        pos.write(0);
         arb.rotmn1(rotmn1);
         arb.rotmn2(rotmn2);
         arb.rotmn3(rotmn3);
         arb.clk(clk);
         arb.pos(pos);
         arb.eop(out_data[0]);
-        arb.val(val);
+        arb.val(out_val);
 
         dM.pos(pos);
         dM.in_data1(in_data1);
