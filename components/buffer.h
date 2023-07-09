@@ -47,11 +47,11 @@ SC_MODULE(buffer) {
         SC_METHOD(consuming);
 		sensitive << rd;
         SC_METHOD(hasSomething);
-		sensitive << qtt;
+		sensitive << clk;
         SC_METHOD(storing);
-		sensitive <<in_val << qtt;
+		sensitive <<in_val;
         SC_METHOD(dataOut);
-		sensitive << memo[idxb];
+		sensitive << clk;
         
     }
 };

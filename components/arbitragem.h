@@ -61,9 +61,9 @@ SC_MODULE(arbitragem) {
         SC_METHOD(posUpdate);
 		sensitive << clk;
         SC_METHOD(outPos);
-		sensitive << requisitionPos;
+		sensitive << clk;
         SC_METHOD(outVal);
-		sensitive << requisitionPos << rotmnt1 << rotmnt2 << rotmnt3;
+		sensitive << rotmnt1 << rotmnt2 << rotmnt3;
         
         // funções eternas
     }

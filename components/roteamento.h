@@ -43,25 +43,25 @@ SC_MODULE(roteamento) {
     void routing(){
         if(!switching){
             if(rok.read()){
-                if(rib == "000"){
+                if(rib.to_string() == "000"){
                     requisitionPos = 0;
                     arbL.write(true);
                     arbA.write(false);
                     arbH.write(false);
                     arbT.write(false);
-                }else if(rib == "001" || rib == "010"){
+                }else if(rib.to_string() == "001" || rib.to_string() == "010"){
                     requisitionPos = 1;
                     arbH.write(true);
                     arbA.write(false);
                     arbL.write(false);
                     arbT.write(false);
-                }else if(rib == "011" || rib == "100" || rib == "101"){
+                }else if(rib.to_string() == "011" || rib.to_string() == "100" || rib.to_string() == "101"){
                     requisitionPos = 2;
                     arbT.write(true);
                     arbA.write(false);
                     arbH.write(false);
                     arbL.write(false);
-                }else if(rib == "110" || rib == "111"){
+                }else if(rib.to_string() == "110" || rib.to_string() == "111"){
                     requisitionPos = 3;
                     arbA.write(true);
                     arbL.write(false);
@@ -116,6 +116,6 @@ SC_MODULE(roteamento) {
         switching = false;
         requisitionPos = 0;
         SC_METHOD(consuming);
-        sensitive << swtching << requisitionPos << readOkL << readOkH << readOkA << readOkT;
+        sensitive << << readOkL << readOkH << readOkA << readOkT;
     }
 };
