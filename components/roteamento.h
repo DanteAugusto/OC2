@@ -24,11 +24,11 @@ SC_MODULE(roteamento) {
     sc_uint<2> requisitionPos; //2 bits
     bool switching;
 
-    sc_in<sc_bv<34>> in_data;
-    sc_out<sc_bv<34>> out_data;
+    sc_in<sc_uint<34>> in_data;
+    sc_out<sc_uint<34>> out_data;
     sc_signal<bool> eop;
     sc_signal<bool> bop; //faca na caveira
-    sc_signal<sc_bv<3>> rib; //3 bits
+    sc_signal<sc_uint<3>> rib; //3 bits
 
     void consuming(){
         if(switching &&((requisitionPos == 0 && readOkL.read()) || 
@@ -43,25 +43,25 @@ SC_MODULE(roteamento) {
     void routing(){
         if(!switching){
             if(rok.read()){
-                if(rib.to_string() == "000"){
+                if(rib.read() == 0){
                     requisitionPos = 0;
                     arbL.write(true);
                     arbA.write(false);
                     arbH.write(false);
                     arbT.write(false);
-                }else if(rib.to_string() == "001" || rib.to_string() == "010"){
+                }else if(rib.read() == 1 || rib.read() == 2){
                     requisitionPos = 1;
                     arbH.write(true);
                     arbA.write(false);
                     arbL.write(false);
                     arbT.write(false);
-                }else if(rib.to_string() == "011" || rib.to_string() == "100" || rib.to_string() == "101"){
+                }else if(rib.read() == 3 || rib.read() == 4 || rib.read() == 5){
                     requisitionPos = 2;
                     arbT.write(true);
                     arbA.write(false);
                     arbH.write(false);
                     arbL.write(false);
-                }else if(rib.to_string() == "110" || rib.to_string() == "111"){
+                }else if(rib.read() == 6 || rib.read() == 7){
                     requisitionPos = 3;
                     arbA.write(true);
                     arbL.write(false);
@@ -75,40 +75,37 @@ SC_MODULE(roteamento) {
         }
     }
     void dataing(){
-        eop = in_data.read()[0];
-        bop = in_data.read()[1];
-        rib[0] = memo[idxb][31];
-        rib[1] = memo[idxb][32];
-        rib[2] = memo[idxb][33];
+        std::bitset<34> data = std::bitset<34>(in_data.read());
+
+        eop.write() = data[0];
+        bop.write() = data[1];
+        rib.write() = (data[31]? 1 : 0) + (data[32]? 2 : 0) + (data[33]? 4 : 0);
     }
     void dataOut(){
-        sc_signal<sc_bv<34>> changeData = in_data.read();
-        if(bop){
-            if(requisitionPos == 1){
-                sc_signal<sc_bv<3>> changeRib = rib;
-                if(changeRib == "001"){
-                    changeRib = "000";
-                }else if(changeRib == "010"){
-                    changeRib = "001";
-                }
-            }else if(requisitionPos == 2){
-                if(changeRib == "011"){
-                    changeRib = "111";
-                }else if(changeRib == "100"){
-                    changeRib = "000";
-                }else if(changeRib == "101"){
-                    changeRib = "001";
-                }
-            }else if(requisitionPos == 3){
-                if(changeRib == "110"){
-                    changeRib = "111";
-                }else if(changeRib == "111"){
-                    changeRib = "000";
-                }
+        sc_uint<34> changeData = in_data.read();
+        if(bop.read()){
+            sc_uint<3> changeRib = rib;
+            if(rib == 1){
+                changeRib = 0;
+            }else if(rib == 2){
+                changeRib = 1;
+            }else if(rib == 3){
+                changeRib = 7;
+            }else if(rib == 4){
+                changeRib = 0;
+            }else if(rib == 5){
+                changeRib = 1;
+            }else if(rib == 6){
+                changeRib = 7;
+            }else if(rib == 7){
+                changeRib = 0;
             }
-            changeData[32] = changeRib[1];
-            changeData[31] = changeRib[0];
-            changeData[33] = changeRib[2];
+            std::bitset<34> data = std::bitset<34>(changeData);
+            std::bitset<3> rib = std::bitset<3>(changeRib);
+            Data[32] = Rib[1];
+            Data[31] = Rib[0];
+            Data[33] = Rib[2];
+            changeData = sc_uint<34>(Data);
         }
         out_data.write(changeData);
     }

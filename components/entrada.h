@@ -14,8 +14,8 @@ SC_MODULE(entrada) {
     sc_signal<bool> rd;
     
 
-    sc_in<sc_bv<34>> in_data; //34 bits
-    sc_out<sc_bv<34>> out_data; //34 bits
+    sc_in<sc_uint<34>> in_data; //34 bits
+    sc_out<sc_uint<34>> out_data; //34 bits
     sc_in<bool> in_val;
     sc_out<bool> in_ack;
 
@@ -34,7 +34,7 @@ SC_MODULE(entrada) {
     sc_in<bool> readOkT;
     
     // o buffer
-    sc_bv<34> memo[4];
+    sc_uint<34> memo[4];
     buffer bf;
     
     // o roteamento

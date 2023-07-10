@@ -7,11 +7,11 @@ SC_MODULE(buffer) {
 
 
 
-    sc_bv<34> memo[4];
+    sc_uint<34> memo[4];
     sc_uint<2> idxb;
     sc_uint<3> qtt;
-    sc_in<sc_bv<34>> in_data; //34 bits
-    sc_out<sc_bv<34>> out_data; //34 bits
+    sc_in<sc_uint<34>> in_data; //34 bits
+    sc_out<sc_uint<34>> out_data; //34 bits
 
 
     sc_in<bool> in_val;

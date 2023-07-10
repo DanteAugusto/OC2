@@ -11,8 +11,8 @@ SC_MODULE(roteador) {
 
 
     //entrada local
-    sc_in<sc_bv<34>> in_dataL; //34 bits
-    sc_signal<sc_bv<34>> sig_out_dataL; //34 bits
+    sc_in<sc_uint<34>> in_dataL; //34 bits
+    sc_signal<sc_uint<34>> sig_out_dataL; //34 bits
     sc_in<bool> in_valL;
     sc_out<bool> in_ackL;
     
@@ -32,8 +32,8 @@ SC_MODULE(roteador) {
     
     
     //entrada anti-horária
-    sc_in<sc_bv<34>> in_dataA; //34 bits
-    sc_signal<sc_bv<34>> sig_out_dataA; //34 bits
+    sc_in<sc_uint<34>> in_dataA; //34 bits
+    sc_signal<sc_uint<34>> sig_out_dataA; //34 bits
     sc_in<bool> in_valA;
     sc_out<bool> in_ackA;
 
@@ -53,8 +53,8 @@ SC_MODULE(roteador) {
     
     
     //entrada horária
-    sc_in<sc_bv<34>> in_dataH; //34 bits
-    sc_signal<sc_bv<34>> sig_out_dataH; //34 bits
+    sc_in<sc_uint<34>> in_dataH; //34 bits
+    sc_signal<sc_uint<34>> sig_out_dataH; //34 bits
     sc_in<bool> in_valH;
     sc_out<bool> in_ackH;
 
@@ -74,8 +74,8 @@ SC_MODULE(roteador) {
 
 
     //entrada transversal (de frente)
-    sc_in<sc_bv<34>> in_dataT; //34 bits
-    sc_signal<sc_bv<34>> sig_out_dataT; //34 bits
+    sc_in<sc_uint<34>> in_dataT; //34 bits
+    sc_signal<sc_uint<34>> sig_out_dataT; //34 bits
     sc_in<bool> in_valT;
     sc_out<bool> in_ackT;
 
@@ -100,10 +100,10 @@ SC_MODULE(roteador) {
     // sc_in<bool> rotmn3 vai ser o sc_signal<bool> arbLT;
 
 
-    // sc_in<sc_bv<34>> in_data1 vai ser o sc_signal<sc_bv<34>> out_dataA;
-    // sc_in<sc_bv<34>> in_data2 vai ser o sc_signal<sc_bv<34>> out_dataH;
-    // sc_in<sc_bv<34>> in_data3 vai ser o sc_signal<sc_bv<34>> out_dataT;
-    sc_out<sc_bv<34>> out_dataL;
+    // sc_in<sc_uint<34>> in_data1 vai ser o sc_signal<sc_uint<34>> out_dataA;
+    // sc_in<sc_uint<34>> in_data2 vai ser o sc_signal<sc_uint<34>> out_dataH;
+    // sc_in<sc_uint<34>> in_data3 vai ser o sc_signal<sc_uint<34>> out_dataT;
+    sc_out<sc_uint<34>> out_dataL;
 
     sc_out<bool> out_valL;
     sc_in<bool> out_ackL;
@@ -116,10 +116,10 @@ SC_MODULE(roteador) {
     // sc_in<bool> rotmn3 vai ser o sc_signal<bool> arbAT;
 
 
-    // sc_in<sc_bv<34>> in_data1 vai ser o sc_signal<sc_bv<34>> out_dataL;
-    // sc_in<sc_bv<34>> in_data2 vai ser o sc_signal<sc_bv<34>> out_dataH;
-    // sc_in<sc_bv<34>> in_data3 vai ser o sc_signal<sc_bv<34>> out_dataT;
-    sc_out<sc_bv<34>> out_dataA;
+    // sc_in<sc_uint<34>> in_data1 vai ser o sc_signal<sc_uint<34>> out_dataL;
+    // sc_in<sc_uint<34>> in_data2 vai ser o sc_signal<sc_uint<34>> out_dataH;
+    // sc_in<sc_uint<34>> in_data3 vai ser o sc_signal<sc_uint<34>> out_dataT;
+    sc_out<sc_uint<34>> out_dataA;
 
     sc_out<bool> out_valA;
     sc_in<bool> out_ackA;
@@ -132,10 +132,10 @@ SC_MODULE(roteador) {
     // sc_in<bool> rotmn3 vai ser o sc_signal<bool> arbHT;
 
 
-    // sc_in<sc_bv<34>> in_data1 vai ser o sc_signal<sc_bv<34>> out_dataA;
-    // sc_in<sc_bv<34>> in_data2 vai ser o sc_signal<sc_bv<34>> out_dataL;
-    // sc_in<sc_bv<34>> in_data3 vai ser o sc_signal<sc_bv<34>> out_dataT;
-    sc_out<sc_bv<34>> out_dataH;
+    // sc_in<sc_uint<34>> in_data1 vai ser o sc_signal<sc_uint<34>> out_dataA;
+    // sc_in<sc_uint<34>> in_data2 vai ser o sc_signal<sc_uint<34>> out_dataL;
+    // sc_in<sc_uint<34>> in_data3 vai ser o sc_signal<sc_uint<34>> out_dataT;
+    sc_out<sc_uint<34>> out_dataH;
 
     sc_out<bool> out_valH;
     sc_in<bool> out_ackH;
@@ -148,10 +148,10 @@ SC_MODULE(roteador) {
     // sc_in<bool> rotmn3 vai ser o sc_signal<bool> arbTL;
 
 
-    // sc_in<sc_bv<34>> in_data1 vai ser o sc_signal<sc_bv<34>> out_dataA;
-    // sc_in<sc_bv<34>> in_data2 vai ser o sc_signal<sc_bv<34>> out_dataH;
-    // sc_in<sc_bv<34>> in_data3 vai ser o sc_signal<sc_bv<34>> out_dataL;
-    sc_out<sc_bv<34>> out_dataT;
+    // sc_in<sc_uint<34>> in_data1 vai ser o sc_signal<sc_uint<34>> out_dataA;
+    // sc_in<sc_uint<34>> in_data2 vai ser o sc_signal<sc_uint<34>> out_dataH;
+    // sc_in<sc_uint<34>> in_data3 vai ser o sc_signal<sc_uint<34>> out_dataL;
+    sc_out<sc_uint<34>> out_dataT;
 
     sc_out<bool> out_valT;
     sc_in<bool> out_ackT;

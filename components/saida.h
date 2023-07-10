@@ -12,10 +12,10 @@ SC_MODULE(saida) {
     sc_in<bool> rotmn3;
 
 
-    sc_in<sc_bv<34>> in_data1;
-    sc_in<sc_bv<34>> in_data2;
-    sc_in<sc_bv<34>> in_data3;
-    sc_out<sc_bv<34>> out_data;
+    sc_in<sc_uint<34>> in_data1;
+    sc_in<sc_uint<34>> in_data2;
+    sc_in<sc_uint<34>> in_data3;
+    sc_out<sc_uint<34>> out_data;
 
     sc_out<bool> out_val;
     sc_in<bool> out_ack;
