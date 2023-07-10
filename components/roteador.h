@@ -205,13 +205,10 @@ SC_MODULE(roteador) {
         readOkAT.write(false);
         readOkHT.write(false);
         readOkTT.write(false);
-        out_valL.write(false);
+        // std::cout << "errou aqui?" << std::endl;
         x_rdL.write(false);
-        out_valA.write(false);
         x_rdA.write(false);
-        out_valH.write(false);
         x_rdH.write(false);
-        out_valT.write(false);
         x_rdT.write(false);
 
 

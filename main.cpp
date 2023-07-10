@@ -210,19 +210,21 @@ int sc_main(int argc, char* argv[]){
     //     count++;                
     // }
 
-    std::queue<sc_uint<34>> local_data_out[8];
-    std::vector<sc_uint<34>> local_data_in[8];
+    std::queue<sc_uint<34>> local_data_in[8];
+    std::vector<sc_uint<34>> local_data_out[8];
     int n_data[8];
     // std::queue<bool> val_in[8];
 
     for(int i{0}; i < 8; ++i){
         std::string line;
         std::getline(file, line);
-        int n_data[i] = std::stoi(line);
-        for(int j{0}; j < n_lines; ++j){
+        std::cout << "aqui?" << std::endl;
+        std::cout << "line: " << line << std::endl;
+        n_data[i] = std::stoi(line);
+        for(int j{0}; j < n_data[i]; ++j){
             std::getline(file, line);
-            sc_uint<34> input = sc_uint<34>(line);
-            local_data_out[i].push(input);
+            sc_uint<34> input = n_data[i];
+            local_data_out[i].push_back(input);
         }
     }
 
@@ -234,6 +236,7 @@ int sc_main(int argc, char* argv[]){
     sc_signal<bool> front_ack_out[8];
 
     roteador r1("r1");
+    // std::cout << "errou aqui?" << std::endl;
     r1.in_dataL(front_local_data_in[0]);
     r1.in_valL(front_val_in[0]);
     r1.in_ackL(front_ack_in[0]);
@@ -446,28 +449,34 @@ int sc_main(int argc, char* argv[]){
 
     bool contin{true};
     while(contin){
+        contin = false;
         for(int i{0}; i < 8; ++i){
-            if(front_val_in[i]){
-                local_data_in[i].push(front_local_data_in[i]);
-                front_ack_out[i] = true;
+            front_local_data_in[i].write(local_data_in[i].front());
+            front_val_in[i].write(!local_data_in[i].empty());
+            if(front_ack_in[i].read()){
+                local_data_in[i].pop();
             }
-            front_local_data_out[i] = local_data_out[i].front();
-            front_val_out[i] = !local_data_out[i].empty();
-            if(front_ack_in[i]){
-                local_data_out[i].pop();
+            if(front_val_out[i].read()){
+                local_data_out[i].push_back(front_local_data_out[i]);
+                front_ack_out[i].write(true);
+            }else{
+                front_ack_out[i].write(false);
             }
             if(local_data_in[i].size() < n_data[i]){
+                // std::cout << "local_data_in[i].size(): " << local_data_in[i].size() << std::endl;
+                // std::cout << "n_data[i]: " << n_data[i] << std::endl;
                 contin = true;
             }
         }
 
-        for(int i{0}; i < 8; ++i){
-            int n = local_data_in[i].size();
-            std::cout << i << ":" << std::endl;
-            for(int j = 0; j < n; j++){
-                std::cout << vetor[j] << std::endl;
-            }
-            std::cout << std::endl;
-        }
     }
+    for(int i{0}; i < 8; ++i){
+        int n = local_data_in[i].size();
+        std::cout << i << ":" << std::endl;
+        for(int j = 0; j < n; j++){
+            std::cout << local_data_out[i][j] << std::endl;
+        }
+        std::cout << std::endl;
+    }
+    return 0;
 }

@@ -49,7 +49,7 @@ SC_MODULE(arbitragem) {
            (requisitionPos == 3 && rotmn3.read())){
             val.write(true);
         }else{
-            val.write(true);
+            val.write(false);
         }
     }
 
