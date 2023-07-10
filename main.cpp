@@ -211,20 +211,17 @@ int sc_main(int argc, char* argv[]){
     // }
 
     std::queue<sc_uint<34>> local_data_out[8];
-    std::queue<sc_uint<34>> local_data_in[8];
+    std::vector<sc_uint<34>> local_data_in[8];
+    int n_data[8];
     // std::queue<bool> val_in[8];
 
     for(int i{0}; i < 8; ++i){
         std::string line;
         std::getline(file, line);
-        int n_lines = std::stoi(line);
+        int n_data[i] = std::stoi(line);
         for(int j{0}; j < n_lines; ++j){
             std::getline(file, line);
-            unsigned int uint_value = 0;
-            for (int i = 0; i < 34; i++) {
-                uint_value |= (line[i]=='1' ? 1 : 0) << (33-i);
-            }
-            sc_uint<34> input = uint_value;
+            sc_uint<34> input = sc_uint<34>(line);
             local_data_out[i].push(input);
         }
     }
@@ -447,11 +444,11 @@ int sc_main(int argc, char* argv[]){
     r8.out_ackT(ack8to4);
 
 
-    //todo arrumar a condição de parada do while
-    while(true){
+    bool contin{true};
+    while(contin){
         for(int i{0}; i < 8; ++i){
             if(front_val_in[i]){
-                local_data_in[i].push(front_local_data_out[i]);
+                local_data_in[i].push(front_local_data_in[i]);
                 front_ack_out[i] = true;
             }
             front_local_data_out[i] = local_data_out[i].front();
@@ -459,7 +456,18 @@ int sc_main(int argc, char* argv[]){
             if(front_ack_in[i]){
                 local_data_out[i].pop();
             }
-            
+            if(local_data_in[i].size() < n_data[i]){
+                contin = true;
+            }
+        }
+
+        for(int i{0}; i < 8; ++i){
+            int n = local_data_in[i].size();
+            std::cout << i << ":" << std::endl;
+            for(int j = 0; j < n; j++){
+                std::cout << vetor[j] << std::endl;
+            }
+            std::cout << std::endl;
         }
     }
 }
