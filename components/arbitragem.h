@@ -18,14 +18,15 @@ SC_MODULE(arbitragem) {
     sc_in<bool> rotmn3;
     
 
-    sc_in<bool> eop;
+    sc_in<sc_uint<34>> eop; //olhar apenas o primeiro bit
 
 
     sc_out<bool> val;
     
     void chaveamento(){
         if(clk){
-            if(switching && eop.read()){
+            std::bitset<34> realEop = std::bitset<34>(eop.read());
+            if(switching && realEop[0]){
                 switching = false;
             }else if((requisitionPos == 1 && rotmn1.read()) || 
                      (requisitionPos == 2 && rotmn2.read()) || 
@@ -63,7 +64,7 @@ SC_MODULE(arbitragem) {
         SC_METHOD(outPos);
 		sensitive << clk;
         SC_METHOD(outVal);
-		sensitive << rotmnt1 << rotmnt2 << rotmnt3;
+		sensitive << rotmn1 << rotmn2 << rotmn3;
         
         // funções eternas
     }

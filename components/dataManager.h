@@ -12,13 +12,13 @@ SC_MODULE(dataManager) {
 
     void dataOut(){
         if(pos.read() == 1){
-            out_data.write(in_data1.read())
+            out_data.write(in_data1.read());
         }
         else if(pos.read() == 2){
-            out_data.write(in_data2.read())
+            out_data.write(in_data2.read());
         }
         else if(pos.read() == 3){
-            out_data.write(in_data3.read())
+            out_data.write(in_data3.read());
         }
     }
     SC_CTOR(dataManager) {

@@ -206,16 +206,12 @@ SC_MODULE(roteador) {
         readOkHT.write(false);
         readOkTT.write(false);
         out_valL.write(false);
-        out_ackL.write(false);
         x_rdL.write(false);
         out_valA.write(false);
-        out_ackA.write(false);
         x_rdA.write(false);
         out_valH.write(false);
-        out_ackH.write(false);
         x_rdH.write(false);
         out_valT.write(false);
-        out_ackT.write(false);
         x_rdT.write(false);
 
 

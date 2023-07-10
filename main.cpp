@@ -220,12 +220,16 @@ int sc_main(int argc, char* argv[]){
         int n_lines = std::stoi(line);
         for(int j{0}; j < n_lines; ++j){
             std::getline(file, line);
-            sc_uint<34> input = sc_uint<34>(line);
+            unsigned int uint_value = 0;
+            for (int i = 0; i < 34; i++) {
+                uint_value |= (line[i]=='1' ? 1 : 0) << (33-i);
+            }
+            sc_uint<34> input = uint_value;
             local_data_out[i].push(input);
         }
     }
 
-    sc_signal<sc_uint<34>> front_local_data_out[8];
+    sc_signal<sc_uint<34>> front_local_data_in[8];
     sc_signal<sc_uint<34>> front_local_data_out[8];
     sc_signal<bool> front_val_in[8];
     sc_signal<bool> front_val_out[8];
@@ -447,11 +451,11 @@ int sc_main(int argc, char* argv[]){
     while(true){
         for(int i{0}; i < 8; ++i){
             if(front_val_in[i]){
-                local_data_in.push(sc_signal<sc_uint<34>> front_local_data_out[i]);
-                sc_signal<bool> front_ack_out[i] = true;
+                local_data_in[i].push(front_local_data_out[i]);
+                front_ack_out[i] = true;
             }
-            sc_signal<sc_uint<34>> front_local_data_out[i] = local_data_out[i].front();
-            sc_signal<bool> front_val_out[i] = !local_data_out[i].empty();
+            front_local_data_out[i] = local_data_out[i].front();
+            front_val_out[i] = !local_data_out[i].empty();
             if(front_ack_in[i]){
                 local_data_out[i].pop();
             }

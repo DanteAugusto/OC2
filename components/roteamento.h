@@ -77,35 +77,39 @@ SC_MODULE(roteamento) {
     void dataing(){
         std::bitset<34> data = std::bitset<34>(in_data.read());
 
-        eop.write() = data[0];
-        bop.write() = data[1];
-        rib.write() = (data[31]? 1 : 0) + (data[32]? 2 : 0) + (data[33]? 4 : 0);
+        eop.write(data[0]);
+        bop.write(data[1]);
+        rib.write((data[31]? 1 : 0) + (data[32]? 2 : 0) + (data[33]? 4 : 0));
     }
     void dataOut(){
         sc_uint<34> changeData = in_data.read();
         if(bop.read()){
             sc_uint<3> changeRib = rib;
-            if(rib == 1){
+            if(rib.read() == 1){
                 changeRib = 0;
-            }else if(rib == 2){
+            }else if(rib.read() == 2){
                 changeRib = 1;
-            }else if(rib == 3){
+            }else if(rib.read() == 3){
                 changeRib = 7;
-            }else if(rib == 4){
+            }else if(rib.read() == 4){
                 changeRib = 0;
-            }else if(rib == 5){
+            }else if(rib.read() == 5){
                 changeRib = 1;
-            }else if(rib == 6){
+            }else if(rib.read() == 6){
                 changeRib = 7;
-            }else if(rib == 7){
+            }else if(rib.read() == 7){
                 changeRib = 0;
             }
             std::bitset<34> data = std::bitset<34>(changeData);
-            std::bitset<3> rib = std::bitset<3>(changeRib);
-            Data[32] = Rib[1];
-            Data[31] = Rib[0];
-            Data[33] = Rib[2];
-            changeData = sc_uint<34>(Data);
+            std::bitset<3> _rib = std::bitset<3>(changeRib);
+            data[32] = _rib[1];
+            data[31] = _rib[0];
+            data[33] = _rib[2];
+            unsigned int uint_value = 0;
+            for (int i = 0; i < 34; i++) {
+                uint_value |= (data[i] ? 1 : 0) << (33-i);
+            }
+            changeData = uint_value;
         }
         out_data.write(changeData);
     }
@@ -113,6 +117,6 @@ SC_MODULE(roteamento) {
         switching = false;
         requisitionPos = 0;
         SC_METHOD(consuming);
-        sensitive << << readOkL << readOkH << readOkA << readOkT;
+        sensitive << readOkL << readOkH << readOkA << readOkT;
     }
 };

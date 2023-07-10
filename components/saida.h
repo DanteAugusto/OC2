@@ -34,7 +34,7 @@ SC_MODULE(saida) {
         arb.rotmn3(rotmn3);
         arb.clk(clk);
         arb.pos(pos);
-        arb.eop(out_data[0]);
+        arb.eop(out_data);
         arb.val(out_val);
 
         dM.pos(pos);
